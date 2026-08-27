@@ -5,12 +5,14 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware
+// Middleware (CORS is already active here)
 app.use(express.json());
-app.use(cors()); // Frontend ko connect karne ke liye
+app.use(cors({
+  origin: '*' // Allow all requests (aapka frontend bina kisi obstruction ke data bhej payega)
+}));
 
 // MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://test:test1234@cluster0.mongodb.net/portfolio?retryWrites=true&w=majority";
+const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB Connected Successfully'))
@@ -54,4 +56,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
